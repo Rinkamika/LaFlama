@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="22px" height="22px"
+	 viewBox="0 0 22 22" enable-background="new 0 0 22 22" xml:space="preserve">
+<title></title>
+<desc></desc>
+<g id="Page-1">
+	<g id="Icons-Device" transform="translate(-43.000000, -83.000000)">
+		<g id="gps-fixed" transform="translate(43.000000, 83.000000)">
+			<path id="Shape" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M11,7c-2.2,0-4,1.8-4,4s1.8,4,4,4s4-1.8,4-4
+				S13.2,7,11,7L11,7z M19.9,10C19.4,5.8,16.1,2.5,12,2.1V0h-2v2.1C5.8,2.5,2.5,5.8,2.1,10H0v2h2.1c0.5,4.2,3.8,7.5,7.9,7.9V22h2
+				v-2.1c4.2-0.5,7.5-3.801,7.9-7.9H22v-2H19.9L19.9,10z M11,18c-3.9,0-7-3.1-7-7c0-3.9,3.1-7,7-7c3.9,0,7,3.1,7,7
+				C18,14.9,14.9,18,11,18L11,18z"/>
+		</g>
+	</g>
+</g>
+</svg>

@@ -18,32 +18,329 @@
     under the License.
 -->
 <html>
-    <head>
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
+  <head>
+    <!--
+    Customize this policy to fit your own app's needs. For more guidance, see:
+        https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+    Some notes:
+        * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+        * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+        * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+            * Enable inline JS: add 'unsafe-inline' to default-src
+    -->
+
+    <!-- Default information -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+
+    <!-- Own information -->
+    <!-- Encoding -->
+    <meta charset="UTF-8">
+    <!-- Description of Web Page -->
+    <meta name="description" content="Valencian Fallas app">
+    <!-- Keywords important for Google -->
+    <meta name="keywords" content="falles, fallas, Valencia, Valencia, fire, llama, fuego, foc, flama">
+    <!-- Author information -->
+    <meta name="author" content="Macarena Parrizas & Ana Buceta">
+
+    <!-- Icon of the website -->
+    <link href="img\mini_logo.png" rel="shortcut icon" type="image/png">
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" type="text/css" href="css/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="css/leaflet.contextmenu.css"/>
+    <link rel="stylesheet" type="text/css" href="css/L.Control.Sidebar.css"/>
+    <link rel="stylesheet" type="text/css" href="css/leaflet-search.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <title>
+      LaFlama App
+    </title>
+  </head>
+  <body>
+    <section id="navbar_section" style="display: none">
+      <div class="topnav" id="myTopnav">
+    	  <a href="#menu" onclick="openNav()"> <span style="font-size:1.3em;cursor:pointer">&#9776;</span> </a>
+    	  <img src="img/mini_logo.png" width="50em" height="50em"/a>
+    	</div>
+
+    	<div id="mySidenav" class="sidenav">
+    	  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    	  <a onclick="goHome()">
+          Home
+        </a>
+        <a onclick="select_location()">
+          Add new
+        </a>
+    	  <a onclick="goAbout()">
+          About
+        </a>
+    	  <a onclick="goHelp()">
+          Help
+        </a>
+    	  <a onclick="goContact()">
+          Contact
+        </a>
+    	</div>
+    </section>
+    <!-- **************************************** START SECTION ******************************* -->
+    <section id="start_section">
+      <!-- Insert APP Logo -->
+      <img class="logo_start" src="img/logo_falla.png" alt="logo">
+      <br>
+      <br>
+
+
+
+      <!-- Username and Password -->
+      <div id="login_form" class="form">
+        <p class="label">
+          Username:
+        </p>
+        <input type="text" name="username" id="username" placeholder="Username"><br>
+        <p class="label">
+          Password:
+        </p>
+        <input type="password" name="Password" id="password" placeholder="Password">
+        <button type="button" id="submit_bttn" class="login_bttn" onclick="log_in()">
+          Log In
+        </button>
+        <button class="register_bttn2" type="button" onclick="register()">
+          Register
+        </button>
+      </div>
+
+      <!-- Login and Register buttons -->
+      <div id="button_div">
+        <button class="signin_bttn" type="button" onclick="sign_in()">
+          Sign In
+        </button>
+
+        <button class="register_bttn" type="button" onclick="register()">
+          Register
+        </button>
+      </div>
+    </section>
+
+    <!-- **************************************** REGISTER SECTION ******************************* -->
+    <section id="regiter_section"  style="display: none">
+      <form name="register_form" id="register_form" class="form" method="get"> <!-- Formular to register -->
+        <input type="hidden" name="name_form" id="name_form" value="register_form"/>
+        <p class="title_register">
+          User Information:
+        </p>
+        <p for="firstname" class="label">
+          First name:
+        </p>
+        <input type="text" name="firstname" id="firstname" placeholder="Mickey" required><br>
+        <p for="lastname" class="label">
+          Last name:
+        </p>
+        <input type="text" name="lastname" id="lastname" placeholder="Mouse" required><br>
+        <p for="user_name" class="label">
+          User Name:
+        </p>
+        <input type="text" name="user_name" id="user_name" placeholder="mickey_mouse" required><br>
+        <p for="password" class="label">
+          Password:
+        </p>
+        <input type="password" name="password" id="passwordregister" placeholder="***Password***" required><br>
+      	<p>
+          Please note: Your user name and password will be used as your login credentials!
+        </p>
+        <button type="button" class="back_bttn" onclick="back_bttn()">
+          Back
+        </button>
+        <button type="button" id="submit_bttn" class="submit_bttn" onclick="register_done()">
+          Register
+        </button>
+    </form>
+    </section>
+
+
+
+    <!-- **************************************** NAVIGATION MAP SECTION ******************************* -->
+    <section id="map_section" style="display: none">
+
+      <div id="mapid"></div>
+      <button type="button" id="locate_position" class="locate_position"  onclick="locate_position()" style="display: block">
+        <img src="img/capture.svg" alt="capture icon">
+      </button>
+    </section>
+
+
+
+
+
+    <!-- **************************************** CAPTURING SECTION ******************************* -->
+    <section id="capturing_section" style="display: none">
+      <form name="capturing_form" id="capturing_form" class="form" method="get" > <!-- Formular to register -->
+        <input type="hidden" name="name_form" id="name_form" value="register_form" />
+          <div class="left" >
+          <!-- Type of element (datalist) -->
+          <p for="nom" class="label_form">Nom:</p>
+          <p for="seccio" class="label_form">Secció:</p>
+          <p for="fallera" class="label_form">Fallera:</p>
+          <p for="president" class="label_form">President:</p>
+          <p for="any_fundacio" class="label_form">Any de fundació:</p>
+          <p for="artiste" class="label_form">ArtistE:</p>
+          <p for="lema" class="label_form">Lema:</p>
+          <p for="sector" class="label_form">Sector:</p>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-    </body>
+
+        <div class="right">
+          <input type="hidden" name="usernamecapture" id="usernamecapture">
+          <input type="text" name="nom" id="nom" placeholder="Pilar (Pl.)">
+          <input type="text" name="seccio" id="seccio" placeholder="ESPECIAL">
+          <input type="text" name="fallera" id="fallera" placeholder="Cristina Barberá López">
+          <input type="text" name="president" id="president" maxlength="50" placeholder="José Javier López Llop">
+          <input type="text" name="any_fundacio" id="any_fundacio" maxlength="50" placeholder="1953">
+          <input type="text" name="artiste" id="artiste" maxlength="50" placeholder="Francisco Torres Josa">
+          <input type="text" name="lema" id="lema" maxlength="50" placeholder="Que li tallen el cap">
+          <input type="text" name="sector" id="sector" maxlength="50" placeholder="El Pilar-Sant Francesc">
+        </div></br>
+        <div class="bottom">
+          <button type="button" id="photo_bttn" class="photo_bttn" onclick="cameraTakePicture()"><img class="camera_img" src="img/camera.svg" alt="capture icon"></button>
+          <button type="button" id="capture_back_bttn" class="capture_back_bttn" onclick="capture_back()">Back</button>
+          <button type="button" id="submit_bttn" class="submit_bttn" onclick="submit_element()">Submit</button>
+        </div></br>
+        <img id = "myImage" class="myImage"></img>
+      </form>
+    </section>
+
+    <!-- ***************************************************** ABOUT SECTION *********************************************** -->
+    <section id="about_section" style="display: none">
+
+
+      <h1 id="backtotop"><b>About</b></h1>
+      <!--Adding container DIV for links to headings-->
+
+
+      <!--Creating headings-->
+      <h3 id='developers'>The Developers</h3>
+      <!--Add text below-->
+
+      <p>
+      The following students of the Politechnical University of Valencia were involved in this project. <br>
+      </p>
+
+
+      <div class='photos'>
+
+      <figure id = 'Maca'>
+      	<img src="img\maca2.jpg" alt="Maca" style="width: 250px;height:auto;" class="Maca">
+      	<h3 class='name'>Macarena Parrizas Siles</h3>
+        <small class="text-muted">MSc. Geomatics Engineering and Geoinformation (2018)</small><br>
+        <small class="text-muted">BSc. Surveying and Geomatics Engineering</small><br>
+        <small class="text-muted">maparsi1 [at] upv.es</small>
+
+      </figure><br>
+
+      <figure id = 'Ana'>
+      	<img img src="img\ana.jpg" alt="Ana" style="width:250px;height:auto;" class="Ana">
+      	<h3 class='name'>Ana Buceta Rodriguez</h3>
+        <small class="text-muted">MSc. Geomatics Engineering and Geoinformation (2019)</small><br>
+        <small class="text-muted">BSc. Surveying and Geomatics Engineering</small><br>
+        <small class="text-muted">anburod [at] upv.es</small>
+
+      </figure></div><br>
+
+
+      <h3 id='app'>LaFlama: The Application</h3>
+      <!--Add text below-->
+      <p>
+      <b>Topic:</b><br>
+      Mapping and visualising the fallas monuments within the traditional Valencia party.<br>
+      <br>
+      <b>Aim:</b><br>
+      To allow the capture and visualisation of this monuments, and also to calculate a route between your location and the location of the monument that user wants to visit.
+      </p><br><br>
+
+      <p id='subject' class='name'><b>2017/2018 Aplicaciones Geoespaciales en Dispositivos Móviles</b></p><br>
+
+      <a href="#backtotop" class='back'>Back to top</a><br>
+    </section>
+
+    <!-- ******************************************************** CONTACT SECTION ***************************************************** -->
+    <section id="contact_section" style="display: none">
+      <form name="contact_form" id="contact_form" class="form" action="mailto:macarena.parrizas@gmail.com" method="get" enctype="text/plain"> <!-- Formular to register -->
+        <p class="title_contact">We are excited to hear from you!</p><br>
+        <p class="title_contact">Phone us:</p>
+        <p class="POaddress">Tel: (0034) 606037580 </p><br>
+        <p class="title_contact">Write to us:</p>
+        <p class="POaddress">Universitat Politècnica de València</p>
+        <p class="POaddress">Edificio 7i. Camí de Vera s/n</p>
+        <p class="POaddress">Valencia  -  46022</p><br>
+        <p class="title_contact">Or send us an email:</p>
+        <button type="submit" class="send_bttn" value="Send">Send email</button>
+      </form>
+    </section>
+
+    <!-- ***************************************** HELP SECTION ******************************************** -->
+    <section id="help_section" class="form" style="display: none">
+      <!--Help page-->
+
+      <p><b>Select appropriate link for help:</b></p>
+      
+      <!--Creating headings-->
+      <h3 id='register'>Registration</h3>
+      <!--Add text below-->
+      <p>
+      When registering, ensure that you insert a valid username and set a password. <br>
+      </p>
+
+      <h3 id='login'>Login</h3>
+      <!--Add text below-->
+      <p>
+      Before attempting to login, ensure you have been registered. <br>
+      Once registered, you have to use your username and password.
+      </p>
+
+      <h3 id='capturing'>Data Capturing</h3>
+      <!--Add text below-->
+      <p>
+      When capturing the data, simply fill out the form and submit it. <br>
+      You can take a picture of the new monument pressing in the 'capture' button.
+
+      </p>
+
+      <h3 id='location'>Location</h3>
+      <!--Add text below-->
+      <p>
+      There are two options for capturing the locational data:
+      <br>
+      <br>
+      Option 1: GPS <br>
+      This option sets the location to your phone's GPS co-ordinates.
+      <br>
+      <br>
+
+      Option 2: Manual Selection <br>
+      This option allows for the manual selection of the location. <br>
+      Simply tap on the mobile screen to drop a pin and set the location.
+      </p><br>
+
+      <a href="#backtotop" class='back'>Back to top</a><br><br>
+    </section>
+
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/leaflet.js"></script>
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/leaflet.contextmenu.js"></script>
+    <script type="text/javascript" src="js/Map.ContextMenu.js"></script>
+    <script src="js/L.Control.Sidebar.js"></script>
+    <script src="js/geojson.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.0.0/dist/leaflet.markercluster.js"></script>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+  </body>
 </html>
